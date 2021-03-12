@@ -1,0 +1,23 @@
+.heading {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 5%;
+}
+
+h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5em;
+}
+
+p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2em;
+}
+
+.text-box {
+    margin: 2% 10% 2% 10%;
+}
+
+.plotly-graph {
+    margin: 5% 10% 5% 10%;
+}
