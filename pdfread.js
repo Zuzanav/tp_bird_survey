@@ -26,7 +26,7 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
                 // CONVERT FROM STRING TO ACTUAL DATE -----
                 // first extract individual month and year, and then create new full date. All dates will start on the first of the month
                 let monthNum = new Date(dateString).getMonth();
-                var monthName = moment(monthNum + 1, "MM").format('MMMM');
+                let monthName = moment(monthNum + 1, "MM").format('MMMM');
 
                 let dateYear = dateString.substring(dateString.lastIndexOf(", ")+1);
 
