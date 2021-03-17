@@ -10,6 +10,7 @@ $( document ).ready(function() {
     let birdCounts = [];
     let birdNames = [];
     let cleanDates = [];
+    let allTheBirds = [];
 
 
     // AJAX CALL ===================================================================
@@ -30,6 +31,7 @@ $( document ).ready(function() {
             
             // object of birds(key) and count(value)
             let monthlyBirds = (all_data[key]) 
+            //console.log(all_data[key]);
 
              // push only bird COUNTS to empty array
             birdCounts.push(Object.values(monthlyBirds));
@@ -38,10 +40,6 @@ $( document ).ready(function() {
             birdNames.push(Object.keys(monthlyBirds));
         })
         //---------------------------------------------------------------
-
-        console.log(rawDates);
-        //console.log(birdCounts);
-        //console.log(birdNames);
 
         for (let i = 0; i < rawDates.length; i++)  {
             // variable 'dates' will look like: "Sun Jan 01 2006 00:00:00 GMT-0800 (Pacific Standard Time)""
@@ -53,15 +51,33 @@ $( document ).ready(function() {
             let monthName = moment(thisMonth + 1, "MM").format('MMM');
             
             let fullDate = ` ${monthName} ${thisYear}`
-            cleanDates.push(fullDate)
-
-
+            cleanDates.push(fullDate);
         }
-        console.log(cleanDates);
+        
+        for (let j = 0; j < birdNames.length; j++) {
+            let newArray = allTheBirds.concat(birdNames[j])
+            allTheBirds = newArray;
+            
+            // filter out duplicates 
+        }
+        //console.log(allTheBirds);
+
+        const distinctBirds = [...new Set(allTheBirds)];
+        console.log(distinctBirds, distinctBirds.length);
+
+        //console.log(cleanDates);
+        //console.log(birdNames);
+        //console.log(birdCounts);
+        
+        // for (let x = 0; x < 5; x++) {
+        //     //add trace1 object here
+        //     // create array for data output for plot.ly 
+
+        // }
 
         trace1 = {
             type: 'scatter',
-            x: [cleanDates[0], cleanDates[1], cleanDates[2], cleanDates[3], cleanDates[4], cleanDates[5]], // MONTH
+            x: [cleanDates], // MONTH
             y: [3, 25, 45, 17, 19, 12], // BIRD COUNT
             mode: 'lines',
             name: 'Bird 1',
@@ -73,7 +89,7 @@ $( document ).ready(function() {
           
           trace2 = {
             type: 'scatter',
-            x: [cleanDates[0], cleanDates[1], cleanDates[2], cleanDates[3], cleanDates[4], cleanDates[5]], // MONTH
+            x: [cleanDates], // MONTH
             y: [12, 9, 15, 12, 15], // BIRD COUNT
             mode: 'lines',
             name: 'Bird 2',
