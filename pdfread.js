@@ -92,7 +92,7 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
         // save each individual bird to variable 'individualBird'
         let individualBird = distinctBirds[bird];
 
-        birdObjects[individualBird] = {}; //i need a var to access this later
+       // birdObjects[individualBird] = {}; //i need a var to access this later
 
         // BEGIN SUB FOR LOOP ----------------------------------------------------------------------------------
         // iterate over the 'allDataObject' to retrieve the keys(birds) and values(counts) inside the date objects
@@ -111,19 +111,18 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
             // save number of objects inside 'birnNCountObj' object - use this in the for loop
             const birdNCountObjSize = ( _.size(birdNCountObj) )
 
-            // BEGIN SUB SUB FOR LOOP ----------------------------------------------------
+            // BEGIN SUB-SUB FOR LOOP ----------------------------------------------------
             //iterate over each birdNCountObject to find a distinct bird
             for (let eachBird = 0; eachBird < birdNCountObjSize; eachBird++) {
 
-                // Is bird named ('individualBird') inside birdNCountObj? | will return true or false
+                // Is bird named ('individualBird') inside birdNCountObj? | will return TRUE (bird was present that month) or FALSE 
+                // if the bird does not exist inside birdNCountObj, it means that bird was not counted for that particular month 
                 let birdMatch = _.has(birdNCountObj, individualBird); // _.has(myObject, 'stringYouWantToFind')
 
-                if (birdMatch == true) {
-
-                let birdCountForMonth = Object.values(birdNCountObj)[bird];
-                   console.log(birdCountForMonth)
-                }
-            } // END SUB SUB LOOP --------------------------------------------------------
+                // bird count = if bird match is true ? count = birdCountForMonth : 0;
+                let birdCountForMonth = birdMatch ? Object.values(birdNCountObj)[bird] : 0;
+                console.log(birdCountForMonth)
+            } // END SUB-SUB LOOP --------------------------------------------------------
 
 
 
