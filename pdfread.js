@@ -2,6 +2,12 @@ var fs = require("fs");
 var moment = require('moment'); // require
 var _ = require('lodash')
 
+// ESTABLISH VARIABLES ---------------------------------------------------------------------------------------------
+let allDataObject = {}; //where clean data will be stored
+let allBirds = [];
+let birdObjects = {};
+//------------------------------------------------------------------------------------------------------------------
+
 //===================================================================================================================
 // READ IN TXT FILE...
 fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
@@ -12,13 +18,9 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
     // SAVE TXT FILE DATA TO "rawData"
     let rawData = data.split("\n"); // split the data by 'new lines'("\n")
 
-
-    // ESTABLISH VARIABLES ---------------------------------------------------------------------------------------------------------------------
-    let allDataObject = {}; //where clean data will be stored
+    // Establish Month Variables -----------------------------------------------------------------------------------
+    
     let months = ["January", "Jan", "February", "Feb", "March", "April", "May", "June", "July", "August", "Aug", "September", "Sep", "October", "Oct", "November", "Nov", "December", "Dec"]
-    let allBirds = [];
-    let birdObjects = {};
-    //-------------------------------------------------------------------------------------------------------------------------------------------
 
 
     //==========================================================================================================================================
@@ -74,14 +76,23 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
         } 
     } // END OF FOR LOOP 1 ================================================================================================
 
+});
+// END OF fs.readFile ==============================================================================================================
+
+
+
 
 
     // ESTABLISH NEW VARIABLES -----------------------------------------------------------------
     //use '...new Set' to filter out duplicate birds 
-    const distinctBirds = [...new Set(allBirds)];
+    let distinctBirds = [...new Set(allBirds)];
 
     //get the amount of objects present in 'allDataObject' using lo-dash's _.size method
     const allDataObjectSize = ( _.size(allDataObject) )
+
+    let allTheBirds = {};
+
+    let individualBirdObject = {};
     //------------------------------------------------------------------------------------------
 
 
@@ -91,6 +102,7 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
     for (let bird = 0; bird < distinctBirds.length; bird++) {
         // save each individual bird to variable 'individualBird'
         let individualBird = distinctBirds[bird];
+        //console.log(individualBird);
 
        // birdObjects[individualBird] = {}; //i need a var to access this later
 
@@ -120,8 +132,20 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
                 let birdMatch = _.has(birdNCountObj, individualBird); // _.has(myObject, 'stringYouWantToFind')
 
                 // bird count = if bird match is true ? count = birdCountForMonth : 0;
-                let birdCountForMonth = birdMatch ? Object.values(birdNCountObj)[bird] : 0;
-                console.log(birdCountForMonth)
+                let birdCountForMonth = birdMatch ? birdNCountObj[bird] : 0;
+                //console.log(birdCountForMonth)
+
+                // save key (currentDate) and value (birdCountForMonth) to empty object 'individualBirdObject'
+                individualBirdObject[currentDate] = birdCountForMonth;
+                //console.log(birdCountForMonth)
+                //console.log(individualBirdObject);
+                // save key (individualBird) and value (individualBirdObject) to empty object 'allTheBirds'
+
+                allTheBirds[individualBird] = individualBirdObject;
+                // console.log(allTheBirds)
+                
+
+
             } // END SUB-SUB LOOP --------------------------------------------------------
 
 
@@ -130,16 +154,18 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
 
 
 
-
-
-
     }; // END OF FOR LOOP 2 ====================================================================================================
 
 
-    //console.log(    allDataObject[(Object.keys(allDataObject)[0])]    );
+
+    //console.log(allTheBirds)
+    //console.log(    birdName[(Object.keys(birdName)[0])]    );
+
 
     // write data to JSON file
-    //fs.writeFileSync('data.json', JSON.stringify(allDataObject, null, 2) , 'utf-8');
+    let data2 = JSON.stringify(allTheBirds, null, 2)
+    fs.writeFileSync('data.json', data2);
+    console.log('done');
 
-});
+
 
