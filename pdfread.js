@@ -86,13 +86,14 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
     // ESTABLISH NEW VARIABLES -----------------------------------------------------------------
     //use '...new Set' to filter out duplicate birds 
     let distinctBirds = [...new Set(allBirds)];
+    //let distinctBirds = ["Gadwall", "American Wigeon", "Mallard", "Loon"]
 
     //get the amount of objects present in 'allDataObject' using lo-dash's _.size method
     const allDataObjectSize = ( _.size(allDataObject) )
+    console.log("ALL DATA OBJECT: ", allDataObject)
+    console.log("DATA OBJECT SIZE: ", allDataObjectSize )
 
     let allTheBirds = {};
-
-    let individualBirdObject = {};
     //------------------------------------------------------------------------------------------
 
 
@@ -102,26 +103,30 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
     for (let bird = 0; bird < distinctBirds.length; bird++) {
         // save each individual bird to variable 'individualBird'
         let individualBird = distinctBirds[bird];
-        //console.log(individualBird);
+        console.log("INDIVIDUAL BIRDS:", individualBird);
 
-       // birdObjects[individualBird] = {}; //i need a var to access this later
+        let individualBirdObject = {};
 
+        
         // BEGIN SUB FOR LOOP ----------------------------------------------------------------------------------
         // iterate over the 'allDataObject' to retrieve the keys(birds) and values(counts) inside the date objects
         for (let eachObj = 0; eachObj < allDataObjectSize; eachObj++) {
 
             // retrieve all the keys (dates) from the 'allDataObject' Object
             let allTheDateKeys = (Object.keys(allDataObject));
+            console.log("ALL THE DATE KEYS", allTheDateKeys)
 
             // retrieve a single key (date) from 'allTheDatesKeys' variable
             let currentDate = allTheDateKeys[eachObj];
+            console.log("CURRENT DATE: ", currentDate)
 
             // save each object (BIRDS and their COUNTS) to new a object
             let birdNCountObj = (Object.values(allDataObject))[eachObj];
-            //console.log(birdNCountObj);
+            console.log("BIRD COUNT", birdNCountObj);
 
             // save number of objects inside 'birnNCountObj' object - use this in the for loop
             const birdNCountObjSize = ( _.size(birdNCountObj) )
+            console.log("BIRD COUNT OBJECT SIZE: ", birdNCountObjSize);
 
             // BEGIN SUB-SUB FOR LOOP ----------------------------------------------------
             //iterate over each birdNCountObject to find a distinct bird
@@ -132,7 +137,8 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
                 let birdMatch = _.has(birdNCountObj, individualBird); // _.has(myObject, 'stringYouWantToFind')
 
                 // bird count = if bird match is true ? count = birdCountForMonth : 0;
-                let birdCountForMonth = birdMatch ? birdNCountObj[bird] : 0;
+
+                let birdCountForMonth = birdMatch ? birdNCountObj[individualBird] : 0;
                 //console.log(birdCountForMonth)
 
                 // save key (currentDate) and value (birdCountForMonth) to empty object 'individualBirdObject'
@@ -163,9 +169,10 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
 
 
     // write data to JSON file
-    let data2 = JSON.stringify(allTheBirds, null, 2)
-    fs.writeFileSync('data.json', data2);
-    console.log('done');
+
+    //let data2 = JSON.stringify(allTheBirds, null, 2)
+    fs.writeFileSync('data.json', JSON.stringify(allTheBirds, null, 2));
+    console.log('...end');
 
 
 
