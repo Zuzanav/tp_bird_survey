@@ -30,25 +30,22 @@ $( document ).ready(function() {
             // months(key) and count(value)
             let date_count_Object = (all_data[key]) 
 
+            // push only bird NAMES to empty array
             birdNames.push(Object.keys(all_data))
-            //console.log(birdNames);
 
-            //console.log(all_data[key]);
-
-             // push only bird COUNTS to empty array
+             // bird COUNTS 
             birdCounts.push(Object.values(date_count_Object));
-            //console.log(birdCounts)
 
             // DATES --- IN FORMAT: "Sun Jan 01 2006 00:00:00 GMT-0800 (Pacific Standard Time)"
             rawDates.push(Object.keys(date_count_Object));
-            //console.log(rawDates);
-        })
-        //---------------------------------------------------------------
 
+        }) //---------------------------------------------------------------
+
+        
+        
         // CLEAN UP DATES DATA ==================================================================================
 
         // START FOR LOOP ------------------------------------------------------------------------------------
-
         for (let eachDateArray = 0; eachDateArray < rawDates.length; eachDateArray++)  {
 
             // START SUB LOOP --------
@@ -65,7 +62,6 @@ $( document ).ready(function() {
             let oneYear = rawDates[eachDateArray]
             let thisYear = new Date(oneYear[eachDate]).getFullYear(); // gives the full 4-digit year
 
-
             // Format the month number to appear as the month name, abbreviated (Ex: 01 --> "Jan")
             let monthName = moment(thisMonth + 1, "MM").format('MMM');
             
@@ -78,71 +74,103 @@ $( document ).ready(function() {
 
         // ========================================================================================================
 
-        
+        // Retrieve all the bird names, store in single array and ...
         for (let j = 0; j < birdNames.length; j++) {
             let newArray = allTheBirds.concat(birdNames[j])
             allTheBirds = newArray;
-            
-            // filter out duplicates 
         }
-
-        console.log(cleanDates);
-
+        // ... filter out duplicates 
         const distinctBirds = [...new Set(allTheBirds)];
-        //console.log(distinctBirds, distinctBirds.length);
 
-        //console.log(cleanDates);
-        //console.log(birdNames);
-        //console.log(birdCounts);
-        
-        // for (let x = 0; x < 5; x++) {
-        //     //add trace1 object here
-        //     // create array for data output for plot.ly 
+        // Function to save the current bird count for the selected bird 
+        function getBirdData(chosenBird) {
+            //currentDate = [];
+            currentCount = [];
+            for (var i = 0 ; i < distinctBirds.length ; i++){
+              if ( distinctBirds[i] === chosenBird ) {
+                //currentDate.push(cleanDates);
+                //console.log(birdCounts[i]);
+                currentCount.push(birdCounts[i]);
+              } 
+            }
+          };
 
-        // }
 
-        //console.log(rawDates[0])
+        // BEGIN GRAPH -------------------------------------------------------------------
+        setGraph('Gadwall');
 
-        trace1 = {
+
+        function setGraph(chosenBird) {
+            getBirdData(chosenBird);
+
+        var trace1 = {
             type: 'scatter',
             x: cleanDates, // MONTHS
-            y: birdCounts[0], // BIRD COUNT
-            mode: 'lines',
-            name: distinctBirds[0], // UNIQUE BIRD
+            y: currentCount[0], // BIRD COUNT
+            mode: 'lines+markers',
+            name: 'bird1', // UNIQUE BIRD
             line: {
               color: 'rgb(219, 64, 82)',
               width: 2
             }
           };
-          
-          trace2 = {
-            type: 'scatter',
-            x: cleanDates, // MONTHS
-            y: birdCounts[1], // BIRD COUNT
-            mode: 'lines',
-            name: distinctBirds[1], // UNIQUE BIRD
-            line: {
-              color: 'rgb(55, 128, 191)',
-              width: 2
-            }
-          };
-          
+          var data = [trace1]; 
+
           var layout = {
             width: 1200,
-            height: 600
+            height: 600,
+            title: "Bird: " + chosenBird
           };
           
-          var data = [trace1, trace2]; 
-          
-          Plotly.newPlot('myDiv', data, layout);
+          Plotly.newPlot('plotdiv', data, layout, {showSendToCloud: true});
+
+        } // END GRAPH -------------------------------------------------------------------
+
+
+        // =================================================================================
+        // HTML DIV SELECTORS 
+        
+        // grab the DIV where the following items will live...
+        var innerContainer = document.querySelector('[data-num="0"'),
+        
+        // where ______ will live ?????
+        //plotEl = innerContainer.querySelector('.plot'),
+        
+        // where entire list of birds will live 
+        birdSelector = innerContainer.querySelector('.birddata');
+
+        // =================================================================================
+
+
+    
+        // =================================================================================
+        // FUNCTION FOR ----
+
+        function assignOptions(textArray, selector) {
+            for (var i = 0; i < textArray.length;  i++) {
+                var currentOption = document.createElement('option');
+                currentOption.text = textArray[i];
+                selector.appendChild(currentOption);
+            }
+          }
+
+        assignOptions(distinctBirds, birdSelector);
+
+        function updateBird(){
+            setGraph(birdSelector.value);
+        }
+
+        birdSelector.addEventListener('change', updateBird, false);
+        
+        // =================================================================================
+
+
+
+
+
+
 
 
 
     }); // END CALL ==================================================================
-
-
-
-
-
-
 });
