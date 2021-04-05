@@ -81,6 +81,7 @@ $( document ).ready(function() {
         }
         // ... filter out duplicates 
         const distinctBirds = [...new Set(allTheBirds)];
+        console.log(distinctBirds);
 
         // Function to save the current bird count for the selected bird 
         function getBirdData(chosenBird) {

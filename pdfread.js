@@ -1,6 +1,8 @@
 var fs = require("fs");
 var moment = require('moment'); // require
 var _ = require('lodash')
+// import { cleanBirdName } from './clean.js';
+const clean = require('./clean.js');
 
 // ESTABLISH VARIABLES ---------------------------------------------------------------------------------------------
 let allDataObject = {}; //where clean data will be stored
@@ -60,8 +62,16 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
                 // save bird names to var and trim
                 let bird = newArrays[0].trim();
 
-                // push all the bird names to a single array
+                bird = clean.cleanBirdName(bird);
+                
+                console.log(bird);
+                
+                
+
+                // push the bird name into an array
                 allBirds.push(bird);
+                //console.log(allBirds.length);
+                
                 
                 // bird count is always second in the array, and we want to convert it into an interger ...
                 // ... and save to count variable
@@ -87,6 +97,7 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
     //use '...new Set' to filter out duplicate birds 
     let distinctBirds = [...new Set(allBirds)];
     //let distinctBirds = ["Gadwall", "American Wigeon", "Mallard", "Loon"]
+    console.log(distinctBirds.length)
 
     //get the amount of objects present in 'allDataObject' using lo-dash's _.size method
     const allDataObjectSize = ( _.size(allDataObject) )
@@ -114,19 +125,19 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
 
             // retrieve all the keys (dates) from the 'allDataObject' Object
             let allTheDateKeys = (Object.keys(allDataObject));
-            console.log("ALL THE DATE KEYS", allTheDateKeys)
+            //console.log("ALL THE DATE KEYS", allTheDateKeys)
 
             // retrieve a single key (date) from 'allTheDatesKeys' variable
             let currentDate = allTheDateKeys[eachObj];
-            console.log("CURRENT DATE: ", currentDate)
+            //console.log("CURRENT DATE: ", currentDate)
 
             // save each object (BIRDS and their COUNTS) to new a object
             let birdNCountObj = (Object.values(allDataObject))[eachObj];
-            console.log("BIRD COUNT", birdNCountObj);
+            //console.log("BIRD COUNT", birdNCountObj);
 
             // save number of objects inside 'birnNCountObj' object - use this in the for loop
             const birdNCountObjSize = ( _.size(birdNCountObj) )
-            console.log("BIRD COUNT OBJECT SIZE: ", birdNCountObjSize);
+            //console.log("BIRD COUNT OBJECT SIZE: ", birdNCountObjSize);
 
             // BEGIN SUB-SUB FOR LOOP ----------------------------------------------------
             //iterate over each birdNCountObject to find a distinct bird
@@ -171,7 +182,7 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
     // write data to JSON file
 
     //let data2 = JSON.stringify(allTheBirds, null, 2)
-    fs.writeFileSync('data.json', JSON.stringify(allTheBirds, null, 2));
+    //fs.writeFileSync('data.json', JSON.stringify(allTheBirds, null, 2));
     console.log('...end');
 
 
