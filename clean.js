@@ -69,7 +69,7 @@ function cleanBirdName(bird) {
         case "Dbl crested Cormorant":
             bird = "Double Crested Cormorant";
             break;
-        case "Loon":
+        case "Loon ":
             bird = "Common Loon";
             break;
     }

@@ -62,16 +62,11 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
                 // save bird names to var and trim
                 let bird = newArrays[0].trim();
 
+                //call on cleanBirdName function to remove spelling errors and other general cleanup
                 bird = clean.cleanBirdName(bird);
-                
-                console.log(bird);
-                
-                
 
                 // push the bird name into an array
                 allBirds.push(bird);
-                //console.log(allBirds.length);
-                
                 
                 // bird count is always second in the array, and we want to convert it into an interger ...
                 // ... and save to count variable
@@ -91,22 +86,23 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
 
 
 
-
+// NOTE: Now that the data is cleaned up, we need to reorganize it to fit plot.ly's needs to make it easier to graph 
+// Below I will create a new object, that will be the bird name, and the properties will be the date and the count of that particular bird
+// on that specific day
 
     // ESTABLISH NEW VARIABLES -----------------------------------------------------------------
     //use '...new Set' to filter out duplicate birds 
-    let distinctBirds = [...new Set(allBirds)];
-    //let distinctBirds = ["Gadwall", "American Wigeon", "Mallard", "Loon"]
-    console.log(distinctBirds.length)
+    //let distinctBirds = [...new Set(allBirds)];
+    let distinctBirds = ["WHIMBRAL"]
+    //"American Wigeon", "Mallard", "Loon"]
 
     //get the amount of objects present in 'allDataObject' using lo-dash's _.size method
-    const allDataObjectSize = ( _.size(allDataObject) )
-    console.log("ALL DATA OBJECT: ", allDataObject)
-    console.log("DATA OBJECT SIZE: ", allDataObjectSize )
+    const allDataObjectSize = ( _.size(allDataObject) );
+    // console.log("ALL DATA OBJECT: ", allDataObject)
+    // console.log("DATA OBJECT SIZE: ", allDataObjectSize )
 
     let allTheBirds = {};
     //------------------------------------------------------------------------------------------
-
 
     //======================================================================================================================
     // BEGIN FOR LOOP 2 - loop through each unique bird and save an empty object to each one
@@ -114,7 +110,7 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
     for (let bird = 0; bird < distinctBirds.length; bird++) {
         // save each individual bird to variable 'individualBird'
         let individualBird = distinctBirds[bird];
-        console.log("INDIVIDUAL BIRDS:", individualBird);
+        //console.log(individualBird);
 
         let individualBirdObject = {};
 
@@ -147,33 +143,23 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
                 // if the bird does not exist inside birdNCountObj, it means that bird was not counted for that particular month 
                 let birdMatch = _.has(birdNCountObj, individualBird); // _.has(myObject, 'stringYouWantToFind')
 
-                // bird count = if bird match is true ? count = birdCountForMonth : 0;
+                /* --- NOTE: Not every bird shows up every month - so some date objects will be missing birds (possibly because of seasonality)
+                 so, I check to see if the bird is present in the date object, if not, it counts as a 0 count --- */
 
+                // bird count = if bird match is true ? count = birdCountForMonth otherwise it's 0;
                 let birdCountForMonth = birdMatch ? birdNCountObj[individualBird] : 0;
-                //console.log(birdCountForMonth)
 
                 // save key (currentDate) and value (birdCountForMonth) to empty object 'individualBirdObject'
                 individualBirdObject[currentDate] = birdCountForMonth;
-                //console.log(birdCountForMonth)
-                //console.log(individualBirdObject);
-                // save key (individualBird) and value (individualBirdObject) to empty object 'allTheBirds'
-
-                allTheBirds[individualBird] = individualBirdObject;
-                // console.log(allTheBirds)
-                
 
 
             } // END SUB-SUB LOOP --------------------------------------------------------
-
-
-
         } // END SUB LOOP -----------------------------------------------------------------------------------
 
-
+        //console.log(individualBirdObject);
+        console.log( _.sum(Object.values(individualBirdObject)) );
 
     }; // END OF FOR LOOP 2 ====================================================================================================
-
-
 
     //console.log(allTheBirds)
     //console.log(    birdName[(Object.keys(birdName)[0])]    );
