@@ -92,8 +92,8 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
 
     // ESTABLISH NEW VARIABLES -----------------------------------------------------------------
     //use '...new Set' to filter out duplicate birds 
-    //let distinctBirds = [...new Set(allBirds)];
-    let distinctBirds = ["WHIMBRAL"]
+    let distinctBirds = [...new Set(allBirds)];
+    //let distinctBirds = ["WHIMBRAL"]
     //"American Wigeon", "Mallard", "Loon"]
 
     //get the amount of objects present in 'allDataObject' using lo-dash's _.size method
@@ -152,14 +152,30 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
                 // save key (currentDate) and value (birdCountForMonth) to empty object 'individualBirdObject'
                 individualBirdObject[currentDate] = birdCountForMonth;
 
+                // save key (individualBird) and value (individualBirdObject) to empty object 'allTheBirds'
+                allTheBirds[individualBird] = individualBirdObject;
+
+
 
             } // END SUB-SUB LOOP --------------------------------------------------------
         } // END SUB LOOP -----------------------------------------------------------------------------------
 
-        //console.log(individualBirdObject);
-        console.log( _.sum(Object.values(individualBirdObject)) );
+
+        let totalBirdCount = _.sum(Object.values(individualBirdObject))
+
+        if ( totalBirdCount <= 5) {
+        
+            // delete the bird from the object
+            // This method mutates object
+
+            _.unset(allTheBirds, individualBird);
+            
+        }
 
     }; // END OF FOR LOOP 2 ====================================================================================================
+
+    console.log(Object.keys(allTheBirds));
+    console.log( _.size(allTheBirds) );
 
     //console.log(allTheBirds)
     //console.log(    birdName[(Object.keys(birdName)[0])]    );
@@ -168,7 +184,7 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
     // write data to JSON file
 
     //let data2 = JSON.stringify(allTheBirds, null, 2)
-    //fs.writeFileSync('data.json', JSON.stringify(allTheBirds, null, 2));
+    fs.writeFileSync('data.json', JSON.stringify(allTheBirds, null, 2));
     console.log('...end');
 
 
