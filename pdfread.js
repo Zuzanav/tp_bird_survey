@@ -68,6 +68,7 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
                 // push the bird name into an array
                 allBirds.push(bird);
                 
+                
                 // bird count is always second in the array, and we want to convert it into an interger ...
                 // ... and save to count variable
                 let count = parseInt(newArrays[1], 10);
@@ -84,7 +85,7 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
 });
 // END OF fs.readFile ==============================================================================================================
 
-
+//console.log(allBirds)
 
 // NOTE: Now that the data is cleaned up, we need to reorganize it to fit plot.ly's needs to make it easier to graph 
 // Below I will create a new object, that will be the bird name, and the properties will be the date and the count of that particular bird
@@ -160,22 +161,37 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
             } // END SUB-SUB LOOP --------------------------------------------------------
         } // END SUB LOOP -----------------------------------------------------------------------------------
 
+        let birdSightings = 0;
+        // store all bird counts into array
+        let birdCountArray = Object.values(individualBirdObject);
 
-        let totalBirdCount = _.sum(Object.values(individualBirdObject))
+        for (let i = 0; i < birdCountArray.length; i++) {
+            if (birdCountArray[i] > 0) {
+                birdSightings++;
+            }
+        }
 
-        if ( totalBirdCount <= 5) {
+        // find sum of array
+        //let totalBirdCount = _.sum(birdCountArray);
+
+        //console.log(birdCountArray);
+        //console.log("bird sightings", birdSightings);
+        // take the Object.values of individualBirdObject
+        // for length of that bird object, check if value is 0 or more
+        // if the bird count value is > (more than) 0, then +1 to a bird sighting tally
+
+        if ( birdSightings <= 5 || individualBird == "") {
         
             // delete the bird from the object
-            // This method mutates object
-
+            // This _.unset method mutates the object
             _.unset(allTheBirds, individualBird);
             
         }
 
     }; // END OF FOR LOOP 2 ====================================================================================================
 
-    console.log(Object.keys(allTheBirds));
-    console.log( _.size(allTheBirds) );
+    //console.log(Object.keys(allTheBirds));
+    //console.log( _.size(allTheBirds) );
 
     //console.log(allTheBirds)
     //console.log(    birdName[(Object.keys(birdName)[0])]    );
@@ -185,7 +201,6 @@ fs.readFile("birdsurvey.txt", "utf8", function(error, data) {
 
     //let data2 = JSON.stringify(allTheBirds, null, 2)
     fs.writeFileSync('data.json', JSON.stringify(allTheBirds, null, 2));
-    console.log('...end');
 
 
 

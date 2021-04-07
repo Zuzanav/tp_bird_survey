@@ -7,75 +7,106 @@ function cleanBirdName(bird) {
     //remove asterisk & remove 'sp' & remove anything inside parantheses 
     bird = bird.replace(/[*]/g, '').replace('sp.', '').replace(/ *\([^)]*\) */g, "").replace(/[-]/g, ' ');
 
+    // Capitalize birdname
+    bird = bird.toUpperCase().trim();
+
     // switch mispellings with correct name
     switch(bird) {
-        case "Allen's Hummingbird":
-            bird = "Rufous/Allen's Hummingbird";
+        case "ALLEN'S HUMMINGBIRD":
+            bird = "RUFOUS/ALLEN'S HUMMINGBIRD";
             break;
-        case "warbler sp. (Parulidae sp.)":
-            bird = "Warbler";
+        case "N. ROUGH WINGED SWALLOW":
+            bird = "NORTHERN ROUGH WINGED SWALLOW";
             break;
-        case "Rock Pigeon (Feral Pigeon)":
-            bird = "Rock Pigeon";
+        case "RUFOUS/ALLEN'S HUMMER":
+            bird = "RUFOUS/ALLEN'S HUMMINGBIRD";
             break;
-        case "N. Rough winged Swallow":
-            bird = "Northern Rough Winged Swallow";
+        case "BLK CROWNED NITE HERON":
+            bird = "BLACK CROWNED NIGHT HERON";
             break;
-        case "Rufous/Allen's Hummer":
-            bird = "Rufous/Allen's Hummingbird";
+        case "KILDEER":
+            bird = "KILLDEER";
             break;
-        case "Blk Crowned Nite Heron":
-            bird = "Black Crowned Night Heron";
+        case "SHRT BILLD/LNG BILLD DOWITCHER":
+            bird = "DOWITCHER";
             break;
-        case "Kildeer":
-            bird = "Killdeer";
+        case "SHRT BLED/LNG BLED DOWITCHER":
+            bird = "DOWITCHER";
             break;
-        case "Savannah Sparrow   (Belding's)":
-            bird = "Savannah Sparrow";
+        case "SHORT BILLED/LONG BILLED DOWITCHER":
+            bird = "DOWITCHER";
             break;
-        case "Shrt billd/Lng billd Dowitcher":
-            bird = "Dowitcher";
+        case "NRTHRN ROUGHT WINGED SWALLOW":
+            bird = "NORTHERN ROUGH WINGED SWALLOW";
             break;
-        case "Shrt bled/Lng bled Dowitcher":
-            bird = "Dowitcher";
+        case "SOOTY/SHORT TAILED SHEARWATER":
+            bird = "SOOTY SHEARWATER";
             break;
-        case "Short billed/Long billed Dowitcher":
-            bird = "Dowitcher";
+        case "BLUE WINGED/CINNAMON TEAL":
+            bird = "CINNAMON TEAL";
             break;
-        case "Nrthrn Rough winged Swallow":
-            bird = "Northern Rough Winged Swallow";
+        case "NORTHERN RGH WNGED SWALLOW":
+            bird = "NORTHERN ROUGH WINGED SWALLOW";
             break;
-        case "Sooty/Short tailed Shearwater":
-            bird = "Sooty Shearwater";
+        case "RUFOUS HUMMINGBIRD":
+            bird = "RUFOUS/ALLEN'S HUMMINGBIRD";
             break;
-        case "Blue winged/Cinnamon Teal":
-            bird = "Cinnamon Teal";
+        case "BLACK CRWNED NIGHT HERON":
+            bird = "BLACK CROWNED NIGHT HERON";
             break;
-        case "Northern Rgh wnged Swallow":
-            bird = "Northern Rough Winged Swallow";
+        case "BED BREASTED MERGANSER":
+            bird = "RED BREASTED MERGANSER";
             break;
-        case "Rufous Hummingbird":
-            bird = "Rufous/Allen's Hummingbird";
+        case 'N. R. WINGED SWALLOW':
+            bird = "NORTHERN ROUGH WINGED SWALLOW";
             break;
-        case "Black crwned Night Heron":
-            bird = "Black Crowned Night Heron";
+        case "DBL CRESTED CORMORANT":
+            bird = "DOUBLE CRESTED CORMORANT";
             break;
-        case "Bed breasted Merganser":
-            bird = "Red Breasted Merganser";
+        case "LOON":
+            bird = "COMMON LOON";
             break;
-        case "N. R. winged Swallow":
-            bird = "Northern Rough Winged Swallow";
+        case "LOON ":
+            bird = "COMMON LOON";
             break;
-        case "Dbl crested Cormorant":
-            bird = "Double Crested Cormorant";
+        case "NRTHRN RGH WINGED SWALLOW":
+            bird = "NORTHERN ROUGH WINGED SWALLOW";
             break;
-        case "Loon ":
-            bird = "Common Loon";
+        case "RUFOUS/ALLENS HUMMER":
+            bird = "RUFOUS/ALLEN'S HUMMINGBIRD";
+            break;
+        case "HUMMINGBIRD":
+            bird = "RUFOUS/ALLEN'S HUMMINGBIRD";
+            break;
+        case "WESTERN SCRUB JAY":
+            bird = "CALIFORNIA SCRUB JAY";
+            break;
+        case "COMMON CROW":
+            bird = "AMERICAN CROW";
+            break;
+        case "NRTHN RGH WINGED SWALLOW":
+            bird = "NORTHERN ROUGH WINGED SWALLOW";
+            break;
+        case "DBLE CRESTED CORMORANT":
+            bird = "DOUBLE CRESTED CORMORANT";
+            break;
+        case 'NORTHERN ROUGHWINGED SWALLOW':
+            bird = "NORTHERN ROUGH WINGED SWALLOW";
+            break;
+        case "NRTHRN ROUGH WINGED SWALLOW":
+            bird = "NORTHERN ROUGH WINGED SWALLOW";
+            break;
+        case "LONG BILLED DOWITCHER":
+            bird = "DOWITCHER";
+            break;
+        case "CLAPPER RAIL":
+            bird = "RIDGWAY'S RAIL";
+            break;
+        case "BELDING'S SAVANNAH SPARROW":
+            bird = "SAVANNAH SPARROW";
             break;
     }
 
-    // Capitalize birdname
-    bird = bird.toUpperCase();
 
 
 
