@@ -78,10 +78,13 @@ $( document ).ready(function() {
         for (let j = 0; j < birdNames.length; j++) {
             let newArray = allTheBirds.concat(birdNames[j])
             allTheBirds = newArray;
-        }
+        } // END OF FOR LOOP ----------------
+
+
         // ... filter out duplicates 
-        const distinctBirds = [...new Set(allTheBirds)];
-        console.log(distinctBirds);
+        let distinctBirds = [...new Set(allTheBirds)];
+        distinctBirds.sort();
+        
 
         // Function to save the current bird count for the selected bird 
         function getBirdData(chosenBird) {
@@ -96,9 +99,8 @@ $( document ).ready(function() {
             }
           };
 
-
         // BEGIN GRAPH -------------------------------------------------------------------
-        setGraph('Gadwall');
+        setGraph('ACCIPITER');
 
 
         function setGraph(chosenBird) {
@@ -172,6 +174,11 @@ $( document ).ready(function() {
 
 
 
-
     }); // END CALL ==================================================================
+
+
+    new SlimSelect({
+        select: '#multiple'
+    })
+
 });
