@@ -167,8 +167,19 @@ $( document ).ready(function() {
         
         // =================================================================================
 
+        
+        birdValueArray = []
 
+        for (var i = 0; i < distinctBirds.length;  i++) {
+            let birdText = {text: distinctBirds[i]}
+            birdValueArray.push(birdText)
+        }
 
+        
+        new SlimSelect({
+            select: '#multiple',
+            data: birdValueArray
+        })
 
 
 
@@ -177,8 +188,7 @@ $( document ).ready(function() {
     }); // END CALL ==================================================================
 
 
-    new SlimSelect({
-        select: '#multiple'
-    })
+
+
 
 });
