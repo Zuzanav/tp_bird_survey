@@ -99,71 +99,52 @@ $( document ).ready(function() {
             }
           };
 
-        // BEGIN GRAPH -------------------------------------------------------------------
-        setGraph('ACCIPITER');
+        // CREATE GRAPH FUNCTION -----------------------------------------------------------
+        
+        //default bird:
+        createGraph('ACCIPITER');
 
+        // two arguments - the selected bird and the number bird (user can only select 5)
+        function createGraph(chosenBird, num) {
 
-        function setGraph(chosenBird) {
-            getBirdData(chosenBird);
+        // get the bird counts from function getBirdData
+        getBirdData(chosenBird);
 
-        var trace1 = {
+        // create the Plotly trace object with relevant information
+        var trace = {
             type: 'scatter',
             x: cleanDates, // MONTHS
             y: currentCount[0], // BIRD COUNT
             mode: 'lines+markers',
-            name: 'bird1', // UNIQUE BIRD
+            name: chosenBird, // UNIQUE BIRD
             line: {
-              color: 'rgb(219, 64, 82)',
+              color: 'rgb(148, 170, 34)',
               width: 2
             }
           };
-          var data = [trace1]; 
 
-          var layout = {
-            width: 1200,
-            height: 600,
-            title: "Bird: " + chosenBird
-          };
-          
-          Plotly.newPlot('plotdiv', data, layout, {showSendToCloud: true});
-
-        } // END GRAPH -------------------------------------------------------------------
-
-
-        // =================================================================================
-        // HTML DIV SELECTORS 
-        
-        // grab the DIV where the following items will live...
-        var innerContainer = document.querySelector('[data-num="0"'),
-        
-        // where ______ will live ?????
-        //plotEl = innerContainer.querySelector('.plot'),
-        
-        // where entire list of birds will live 
-        birdSelector = innerContainer.querySelector('.birddata');
-
-        // =================================================================================
-
+          return trace;
+        } // END CREATE GRAPH FUNCTION --------------------------------------------------
 
     
         // =================================================================================
         // FUNCTION FOR ----
 
-        function assignOptions(textArray, selector) {
-            for (var i = 0; i < textArray.length;  i++) {
-                var currentOption = document.createElement('option');
-                currentOption.text = textArray[i];
-                selector.appendChild(currentOption);
-            }
-          }
+        // function assignOptions(textArray, selector) {
+        //     for (var i = 0; i < textArray.length;  i++) {
+        //         var currentOption = document.createElement('option');
+        //         currentOption.text = textArray[i];
+        //         selector.appendChild(currentOption);
+        //     }
+        //   }
 
-        assignOptions(distinctBirds, birdSelector);
+        // assignOptions(distinctBirds, birdSelector);
 
-        function updateBird(){
-            setGraph(birdSelector.value);
-        }
+        // function updateBird(){
+        //     createGraph(birdSelector.value);
+        // }
 
-        birdSelector.addEventListener('change', updateBird, false);
+        // birdSelector.addEventListener('change', updateBird, false);
         
         // =================================================================================
 
@@ -175,15 +156,42 @@ $( document ).ready(function() {
             birdValueArray.push(birdText)
         }
 
-        
-        new SlimSelect({
+        function grabBirdsFunction(info) {
+            console.log(info)
+            let num = 0;
+            var data = []; 
+            // for each bird selected by the user, run the function createGraph to graph each bird 
+            for (var i = 0; i < info.length; i++) {
+                num++; //this will be the number 'trace' for each bird
+                createGraph(info[i].value, num)
+                let traceBluePrint = createGraph();
+                data.push(traceBluePrint);
+            }
+
+            var layout = {
+                width: 1200,
+                height: 600,
+                title: "BIRD: "
+              };
+              
+              Plotly.newPlot('plotdiv', data, layout, {showSendToCloud: true});
+
+        }
+
+        // SlimSelect Library -----------------------------------------------
+        // allows for multiple options to be selected 
+       let select = new SlimSelect({
             select: '#multiple',
-            data: birdValueArray
+            data: birdValueArray,
+            limit: 5, // limiting user to select maximum of 5 birds
+            onChange: (info) => { // anytime a bird is added or deleted, this triggers an event
+                grabBirdsFunction(info);
+                return info
+            }
         })
+        // END LIBRARY -----------------------------------------------------
 
-
-
-
+        //console.log(select.selected());
 
     }); // END CALL ==================================================================
 
