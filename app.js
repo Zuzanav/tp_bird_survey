@@ -72,23 +72,23 @@ $( document ).ready(function() {
 
         } // END OF FOR LOOP ----------------------------------------------------------------------------------
 
-        // ========================================================================================================
-
         // Retrieve all the bird names, store in single array and ...
         for (let j = 0; j < birdNames.length; j++) {
             let newArray = allTheBirds.concat(birdNames[j])
             allTheBirds = newArray;
         } // END OF FOR LOOP ----------------
 
-
         // ... filter out duplicates 
         let distinctBirds = [...new Set(allTheBirds)];
-        distinctBirds.sort();
+        distinctBirds.sort(); // distinctBirds = FINAL, CLEAN array of all individual bird names
+
+        
+        // ==========================================================================================
+        // FUNCTIONS -------------------------------------------------------------------
         
 
         // Function to save the current bird count for the selected bird 
         function getBirdData(chosenBird) {
-            //currentDate = [];
             currentCount = [];
             for (var i = 0 ; i < distinctBirds.length ; i++){
               if ( distinctBirds[i] === chosenBird ) {
@@ -97,6 +97,7 @@ $( document ).ready(function() {
                 currentCount.push(birdCounts[i]);
               } 
             }
+            return currentCount;
           };
 
         // CREATE GRAPH FUNCTION -----------------------------------------------------------
@@ -108,13 +109,14 @@ $( document ).ready(function() {
         function createGraph(chosenBird, num) {
 
         // get the bird counts from function getBirdData
-        getBirdData(chosenBird);
+        let thisCurrentCount = getBirdData(chosenBird);
+        console.log(thisCurrentCount[0])
 
         // create the Plotly trace object with relevant information
         var trace = {
             type: 'scatter',
             x: cleanDates, // MONTHS
-            y: currentCount[0], // BIRD COUNT
+            y: thisCurrentCount[0], // BIRD COUNT
             mode: 'lines+markers',
             name: chosenBird, // UNIQUE BIRD
             line: {
@@ -122,7 +124,7 @@ $( document ).ready(function() {
               width: 2
             }
           };
-
+          //data.push(trace)
           return trace;
         } // END CREATE GRAPH FUNCTION --------------------------------------------------
 
@@ -149,29 +151,32 @@ $( document ).ready(function() {
         // =================================================================================
 
         
-        birdValueArray = []
 
-        for (var i = 0; i < distinctBirds.length;  i++) {
-            let birdText = {text: distinctBirds[i]}
-            birdValueArray.push(birdText)
-        }
 
-        function grabBirdsFunction(info) {
-            console.log(info)
+        function grabSelectedBirds(selectedBirds) {
+            console.log(selectedBirds)
             let num = 0;
-            var data = []; 
-            // for each bird selected by the user, run the function createGraph to graph each bird 
-            for (var i = 0; i < info.length; i++) {
-                num++; //this will be the number 'trace' for each bird
-                createGraph(info[i].value, num)
-                let traceBluePrint = createGraph();
+            let data = [];
+            // for each bird selected by the user...
+            for (var i = 0; i < selectedBirds.length; i++) {
+                //this will be the number 'trace' for each bird
+                num++; 
+                
+                // create a graph for each individual bird by running createGraph function
+                let traceBluePrint = createGraph(selectedBirds[i].value, num)
+
+                // save the graph blueprint returned by the createGraph function ...
+                //createGraph();
+
+                // ... and push to empty data array
                 data.push(traceBluePrint);
+                console.log("data: ", data)
             }
 
             var layout = {
                 width: 1200,
                 height: 600,
-                title: "BIRD: "
+                title: "Bird Graph"
               };
               
               Plotly.newPlot('plotdiv', data, layout, {showSendToCloud: true});
@@ -180,18 +185,31 @@ $( document ).ready(function() {
 
         // SlimSelect Library -----------------------------------------------
         // allows for multiple options to be selected 
+
+        // SlimSelect Library requires the values (items in the dropdown) to be formatted thus:
+        // text: "value1"
+        // As a result, the loop below is to correctly format the bird names before giving it to the library to use
+
+        birdValueArray = []
+
+        for (var i = 0; i < distinctBirds.length;  i++) {
+            let birdText = {text: distinctBirds[i]}
+            birdValueArray.push(birdText)
+        }
+
+        // create new SlimSelect dropdown with bird names:
        let select = new SlimSelect({
             select: '#multiple',
             data: birdValueArray,
             limit: 5, // limiting user to select maximum of 5 birds
-            onChange: (info) => { // anytime a bird is added or deleted, this triggers an event
-                grabBirdsFunction(info);
-                return info
+            onChange: (info) => { // anytime a bird is added or deleted, it triggers this event
+                grabSelectedBirds(info);
+                return info;
             }
         })
         // END LIBRARY -----------------------------------------------------
 
-        //console.log(select.selected());
+        console.log(select.selected());
 
     }); // END CALL ==================================================================
 
