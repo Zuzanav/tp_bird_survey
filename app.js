@@ -175,6 +175,8 @@ $( document ).ready(function() {
             select: '#multiple',
             data: birdValueArray,
             limit: 5, // limiting user to select maximum of 5 birds
+            placeholder: 'Select Bird', 
+            searchHighlight: true,
             onChange: (info) => { // anytime a bird is added or deleted, it triggers this event
                 grabSelectedBirds(info);
                 return info;
@@ -182,7 +184,7 @@ $( document ).ready(function() {
         })
         // END LIBRARY -----------------------------------------------------
         // ===============================================================================
-
+        select.set('AMERICAN CROW')
         console.log(select.selected());
 
     }); // END CALL ==================================================================

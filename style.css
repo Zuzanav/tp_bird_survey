@@ -21,3 +21,12 @@ p {
 .plotly-graph {
     margin: 5% 10% 5% 10%;
 }
+
+.ss-main .ss-multi-selected .ss-values .ss-value {
+    background-color: black !important;
+}
+
+.select-bird-box {
+    width: 500px;
+    margin: 2% 0 0 5%;
+}
