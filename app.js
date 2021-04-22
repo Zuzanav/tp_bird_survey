@@ -1,6 +1,5 @@
 $( document ).ready(function() { 
 
-
     // URL TO JSON ARRAY WITH BIRD DATA -------------------------------------------
     var queryURL = "https://zuz-vol-s3.s3-us-west-2.amazonaws.com/data.json";
 
@@ -20,7 +19,6 @@ $( document ).ready(function() {
     }).then(function(response) {
         // store response (or all the data) into 'all_data' variable 
         var all_data = response;
-        //console.log(all_data);
         
         //-----------------------------------------------------------------
         // retreive all keys and keys' value ( key:value ) and push to empty arrays
@@ -40,7 +38,7 @@ $( document ).ready(function() {
             rawDates.push(Object.keys(date_count_Object));
 
         }) //---------------------------------------------------------------
-
+        
         
         
         // CLEAN UP DATES DATA ==================================================================================
@@ -80,8 +78,6 @@ $( document ).ready(function() {
 
         // ... filter out duplicates 
         let distinctBirds = [...new Set(allTheBirds)];
-        distinctBirds.sort(); // distinctBirds = FINAL, CLEAN array of all individual bird names
-
         
         // ==========================================================================================
         // FUNCTIONS -------------------------------------------------------------------
@@ -92,9 +88,7 @@ $( document ).ready(function() {
             currentCount = [];
             for (var i = 0 ; i < distinctBirds.length ; i++){
               if ( distinctBirds[i] === chosenBird ) {
-                //currentDate.push(cleanDates);
-                //console.log(birdCounts[i]);
-                currentCount.push(birdCounts[i]);
+                currentCount.push(Object.values(all_data[chosenBird]));
               } 
             }
             return currentCount;
@@ -103,7 +97,7 @@ $( document ).ready(function() {
         // CREATE GRAPH FUNCTION -----------------------------------------------------------
         
         //default bird:
-        createGraph('ACCIPITER');
+        
 
         // two arguments - the selected bird and the number bird (user can only select 5)
         function createGraph(chosenBird, num) {
@@ -120,7 +114,6 @@ $( document ).ready(function() {
             mode: 'lines+markers',
             name: chosenBird, // UNIQUE BIRD
             line: {
-              color: 'rgb(148, 170, 34)',
               width: 2
             }
           };
@@ -128,29 +121,7 @@ $( document ).ready(function() {
           return trace;
         } // END CREATE GRAPH FUNCTION --------------------------------------------------
 
-    
-        // =================================================================================
-        // FUNCTION FOR ----
 
-        // function assignOptions(textArray, selector) {
-        //     for (var i = 0; i < textArray.length;  i++) {
-        //         var currentOption = document.createElement('option');
-        //         currentOption.text = textArray[i];
-        //         selector.appendChild(currentOption);
-        //     }
-        //   }
-
-        // assignOptions(distinctBirds, birdSelector);
-
-        // function updateBird(){
-        //     createGraph(birdSelector.value);
-        // }
-
-        // birdSelector.addEventListener('change', updateBird, false);
-        
-        // =================================================================================
-
-        
 
 
         function grabSelectedBirds(selectedBirds) {
@@ -176,24 +147,26 @@ $( document ).ready(function() {
             var layout = {
                 width: 1200,
                 height: 600,
-                title: "Bird Graph"
+                title: "Bird Graph",
+                colorway : ['#233D4D', '#FE7F2D', '#FCCA46', '#A1C181', '#619B8A']
               };
               
               Plotly.newPlot('plotdiv', data, layout, {showSendToCloud: true});
 
         }
-
-        // SlimSelect Library -----------------------------------------------
-        // allows for multiple options to be selected 
+        // =============================================================================
+        // SLIM SELECT LIBRARY -----------------------------------------------
+        // allows for multiple options to be selected by the user, from a dropdown menu
 
         // SlimSelect Library requires the values (items in the dropdown) to be formatted thus:
-        // text: "value1"
+        // {text: "value1"}
         // As a result, the loop below is to correctly format the bird names before giving it to the library to use
 
         birdValueArray = []
+        let sortedDistinctBirds = distinctBirds.sort();
 
-        for (var i = 0; i < distinctBirds.length;  i++) {
-            let birdText = {text: distinctBirds[i]}
+        for (var i = 0; i < sortedDistinctBirds.length;  i++) {
+            let birdText = {text: sortedDistinctBirds[i]}
             birdValueArray.push(birdText)
         }
 
@@ -208,6 +181,7 @@ $( document ).ready(function() {
             }
         })
         // END LIBRARY -----------------------------------------------------
+        // ===============================================================================
 
         console.log(select.selected());
 
