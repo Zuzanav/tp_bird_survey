@@ -1,7 +1,6 @@
 var fs = require("fs");
 var moment = require('moment'); // require
 var _ = require('lodash')
-// import { cleanBirdName } from './clean.js';
 const clean = require('./clean.js');
 
 // ESTABLISH VARIABLES ---------------------------------------------------------------------------------------------

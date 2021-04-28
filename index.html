@@ -20,6 +20,8 @@
 
   <!-- GOOGLE FONTS ----------->
   <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
 
   <!-- LINK TO CSS FILE -->
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -29,6 +31,7 @@
 <title> Torrey Pines - Bird Survey </title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.0/slimselect.min.js"></script>
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.0/slimselect.min.css" rel="stylesheet"></link>
 
 
@@ -44,7 +47,11 @@
 
     <!-- PARAGRAPH ---------------------------------------->
     <div class="text-box">
-        <p> Birds birds and more birds </p>
+        <p> The Torrey Pines Docent Society conducts bird surveys every month and have been for the past 15 years.
+            Seeing as the data is very valuable, I have decided to create this app to help display the data for 
+            all to see.
+        
+        </p>
     </div>
 
     <!-- PLOTLY GRAPH ---------------------------------------->
@@ -63,7 +70,27 @@
     </select>
 </div>
 
+<br>
 
+<div class="text-box-2">
+    <p> Here you can see the average bird trends to get a better idea of what bird populations are generally increasing, decreasing or staying about the same
+    </p>
+</div>
+
+
+<!-- PLOTLY GRAPH ---------------------------------------->
+<div class="linegraph" data-num="1">
+    <div class="plot" id='plotdiv2'> <!-- Plotly chart will be drawn inside this DIV --> </div>
+    <div class="control-row">
+        </select>
+        </div>
+    </div>
+
+    <!-- Options -->
+<div class="select-bird-box">
+    <select id="multiple2" multiple>
+    </select>
+</div>
 
 </body>
 

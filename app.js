@@ -1,4 +1,5 @@
-$( document ).ready(function() { 
+
+window.onload = function () {
 
     // URL TO JSON ARRAY WITH BIRD DATA -------------------------------------------
     var queryURL = "https://zuz-vol-s3.s3-us-west-2.amazonaws.com/data.json";
@@ -82,8 +83,7 @@ $( document ).ready(function() {
         // ==========================================================================================
         // FUNCTIONS -------------------------------------------------------------------
         
-
-        // Function to save the current bird count for the selected bird 
+        // GET BIRD COUNT FUNCTION - save the current bird count for the selected bird 
         function getBirdData(chosenBird) {
             currentCount = [];
             for (var i = 0 ; i < distinctBirds.length ; i++){
@@ -94,18 +94,40 @@ $( document ).ready(function() {
             return currentCount;
           };
 
-        // CREATE GRAPH FUNCTION -----------------------------------------------------------
-        
-        //default bird:
-        
+        // GET MOVING AVERAGE BIRD COUNT FUNCTION - find the moving avg for the selected bird 
+        function getMovingAvg(chosenBird, n = 15) {
+            let count = getBirdData(chosenBird)
 
+            if (!count[0] || count[0].length < n) {
+              return [];
+            }
+           
+            let index = n - 1;
+            const length = count[0].length + 1;
+           
+            const getMovingAvg = [];
+           
+            while (++index < length) {
+              const nSlice = count[0].slice(index - n, index);
+              const sum = nSlice.reduce((prev, curr) => prev + curr, 0);
+              getMovingAvg.push(sum / n);
+            }
+           
+            for (var i = 0 ; i < n-1 ; i++){
+                getMovingAvg.unshift(0);
+               n-1; 
+            }
+            return getMovingAvg;
+        };
+           
+    
+        // CREATE BIRD COUNTS - GRAPH FUNCTION ----------------------------------------------------
         // two arguments - the selected bird and the number bird (user can only select 5)
-        function createGraph(chosenBird, num) {
+        function createGraph(chosenBird) {
 
         // get the bird counts from function getBirdData
         let thisCurrentCount = getBirdData(chosenBird);
-        console.log(thisCurrentCount[0])
-
+            console.log(thisCurrentCount)
         // create the Plotly trace object with relevant information
         var trace = {
             type: 'scatter',
@@ -122,38 +144,77 @@ $( document ).ready(function() {
         } // END CREATE GRAPH FUNCTION --------------------------------------------------
 
 
-
-
-        function grabSelectedBirds(selectedBirds) {
-            console.log(selectedBirds)
-            let num = 0;
+        // CREATE MOVING AVERAGE - GRAPH FUNCTION --------------------------------------------
+        // two arguments - the selected bird and the number bird (user can only select 5)
+        function createMovingAvgGraph(chosenBird) {
+            console.log(chosenBird)
+            // get the bird counts from function getBirdData
+            let thisCurrentCount = getMovingAvg(chosenBird);
+            console.log(thisCurrentCount);
+            // create the Plotly trace object with relevant information
+            var trace = {
+                type: 'scatter',
+                x: cleanDates, // MONTHS
+                y: thisCurrentCount, // BIRD COUNT
+                mode: 'lines',
+                opacity: .65,
+                name: chosenBird, // UNIQUE BIRD
+                line: {
+                  width: 7,
+                  smoothing: 0,
+                }
+              };
+              //data.push(trace)
+              return trace;
+        } // END CREATE GRAPH FUNCTION --------------------------------------------------
+        
+        function trendingBirds(selectedBirds) {
             let data = [];
             // for each bird selected by the user...
             for (var i = 0; i < selectedBirds.length; i++) {
-                //this will be the number 'trace' for each bird
-                num++; 
-                
-                // create a graph for each individual bird by running createGraph function
-                let traceBluePrint = createGraph(selectedBirds[i].value, num)
 
-                // save the graph blueprint returned by the createGraph function ...
-                //createGraph();
+                // create a graph for each individual bird by running createGraph function
+                let traceBluePrint = createMovingAvgGraph(selectedBirds[i].value)
 
                 // ... and push to empty data array
                 data.push(traceBluePrint);
-                console.log("data: ", data)
             }
 
             var layout = {
                 width: 1200,
                 height: 600,
-                title: "Bird Graph",
+                title: "Avg",
                 colorway : ['#233D4D', '#FE7F2D', '#FCCA46', '#A1C181', '#619B8A']
               };
               
-              Plotly.newPlot('plotdiv', data, layout, {showSendToCloud: true});
+              Plotly.newPlot('plotdiv2', data, layout, {modeBarButtonsToRemove: ['lasso2d', 'toggleSpikelines', 'zoom2d', 'select2d', 'autoScale2d']});
 
         }
+
+
+        function grabSelectedBirds(selectedBirds) {
+            let data = [];
+            // for each bird selected by the user...
+            for (var i = 0; i < selectedBirds.length; i++) {
+
+                // create a graph for each individual bird by running createGraph function
+                let traceBluePrint = createGraph(selectedBirds[i].value)
+
+                // ... and push to empty data array
+                data.push(traceBluePrint);
+            }
+
+            var layout = {
+                width: 1200,
+                height: 600,
+                title: "Bird Counts",
+                colorway : ['#233D4D', '#FE7F2D', '#FCCA46', '#A1C181', '#619B8A']
+              };
+              
+              Plotly.newPlot('plotdiv', data, layout, {modeBarButtonsToRemove: ['lasso2d', 'toggleSpikelines', 'zoom2d', 'select2d', 'autoScale2d']});
+
+        }
+
         // =============================================================================
         // SLIM SELECT LIBRARY -----------------------------------------------
         // allows for multiple options to be selected by the user, from a dropdown menu
@@ -182,10 +243,25 @@ $( document ).ready(function() {
                 return info;
             }
         })
+
+        // create new SlimSelect dropdown with bird names:
+       let select2 = new SlimSelect({
+        select: '#multiple2',
+        data: birdValueArray,
+        limit: 5, // limiting user to select maximum of 5 birds
+        placeholder: 'Select Bird', 
+        searchHighlight: true,
+        onChange: (info) => { // anytime a bird is added or deleted, it triggers this event
+            trendingBirds(info);
+            return info;
+        }
+    })
         // END LIBRARY -----------------------------------------------------
         // ===============================================================================
         select.set('AMERICAN CROW')
-        console.log(select.selected());
+        //console.log(select.selected());
+        select2.set('AMERICAN CROW')
+        
 
     }); // END CALL ==================================================================
 
@@ -193,4 +269,4 @@ $( document ).ready(function() {
 
 
 
-});
+};

@@ -2,6 +2,7 @@
     text-align: center;
     font-family: 'Cormorant Garamond', serif;
     margin-bottom: 5%;
+    margin-top: 2%;
 }
 
 h3 {
@@ -18,15 +19,37 @@ p {
     margin: 2% 10% 2% 10%;
 }
 
+.text-box-2 {
+    margin: 2% 10% 2% 10%;
+}
+
+.linegraph {
+    margin-left: 7%;
+}
+
 .plotly-graph {
     margin: 5% 10% 5% 10%;
 }
 
 .ss-main .ss-multi-selected .ss-values .ss-value {
-    background-color: black !important;
+    background-color: salmon !important;
 }
 
 .select-bird-box {
     width: 500px;
     margin: 2% 0 0 5%;
+    font-family: 'Nunito', sans-serif !important;
+}
+
+.legendtext {
+    font-family: 'Nunito', sans-serif !important;
+}
+
+.xtick  {
+    font-family: 'Nunito', sans-serif !important;
+}
+
+.gtitle {
+    font-family: 'Cormorant Garamond', serif !important;
+    font-size: 30px !important;
 }
