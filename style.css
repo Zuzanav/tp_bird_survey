@@ -23,6 +23,10 @@ p {
     margin: 2% 10% 2% 10%;
 }
 
+.text-box-3 {
+    margin: 2% 10% 2% 10%;
+}
+
 .linegraph {
     margin-left: 7%;
 }
@@ -39,6 +43,10 @@ p {
     width: 500px;
     margin: 2% 0 0 5%;
     font-family: 'Nunito', sans-serif !important;
+}
+
+#select-bird-box2 {
+    margin-bottom: 2%;
 }
 
 .legendtext {

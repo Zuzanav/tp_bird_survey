@@ -42,14 +42,23 @@
 <body>
     <!-- SITE TITLE ---------------------------------------->
     <div class="heading">
-        <h1> Torrey Pines - Bird Survey </h1>
+        <h1> Torrey Pines Bird Survey </h1>
     </div>
 
     <!-- PARAGRAPH ---------------------------------------->
     <div class="text-box">
-        <p> The Torrey Pines Docent Society conducts bird surveys every month and have been for the past 15 years.
-            Seeing as the data is very valuable, I have decided to create this app to help display the data for 
+        <h3>Torrey Pines</h3>
+        <p>Torrey Pines State Natural Reserve is a reserve located in San Diego, California. It is home to the rarest pine tree in North America. 
+            The reserve offers a lot of biodiversity including all the different species of birds that may use San Diego as their pitstop along their migratory path, or even call it their permanent home. 
+            The Torrey Pines Docent Society conducts bird surveys every month. Seeing as the data is very valuable, I have decided to create this app to help display the data for 
             all to see.
+        </p>
+        <br>
+        <h3>The Data</h3>
+        <p> The data includes up to 172 unique species of birds over the course of 15 years. Because the data spans a large amount of time, it is easy to see 
+            the seasonality of some birds. In the graph below, you can select up to 5 different types of birds to compare. You may also search for specific birds if you already have some in mind. Click and drag over any section of the 
+            timeline to get a closer look at the numbers for that given time period. Mostly explore, have fun and see if you learn anything!
+            
         
         </p>
     </div>
@@ -73,7 +82,16 @@
 <br>
 
 <div class="text-box-2">
-    <p> Here you can see the average bird trends to get a better idea of what bird populations are generally increasing, decreasing or staying about the same
+    <h3>Bird Trends</h3>
+    <p> While looking at the visualized data I noticed trends in certain birds. For example, it seems like the California Quail
+        population trends downwards over the years, or the California Thrasher trends upwards. Note this trend is localized and may 
+        infer a lot about what may be happening at Torrey Pines or San Diego County, even, since the California Thrasher's population is generally declining
+        in California.
+
+        Interestingly enough there are some birds who also appear to have an inverted bell-curve, indicating their population bounced back after
+        decreasing for a certain amount of years (ex: Royal Tern).
+
+        In order to increase the visibility of the trends, the data displayed below is a moving average of the data displayed above.
     </p>
 </div>
 
@@ -87,9 +105,16 @@
     </div>
 
     <!-- Options -->
-<div class="select-bird-box">
+<div class="select-bird-box" id="select-bird-box2" >
     <select id="multiple2" multiple>
     </select>
+</div>
+
+<div class="text-box-3">
+    <h3>Notice Any Errors?</h3>
+    <p>If you are an experienced birder and notice an error, please contact me. Some of the birds have had their common names change in the past decade and a half and
+        may result in what appears to have half their data missing when in reality, the second half of their data lies in a different common name.
+    </p>
 </div>
 
 </body>

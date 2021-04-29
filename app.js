@@ -127,7 +127,8 @@ window.onload = function () {
 
         // get the bird counts from function getBirdData
         let thisCurrentCount = getBirdData(chosenBird);
-            console.log(thisCurrentCount)
+        //console.log(thisCurrentCount)
+
         // create the Plotly trace object with relevant information
         var trace = {
             type: 'scatter',
@@ -139,7 +140,6 @@ window.onload = function () {
               width: 2
             }
           };
-          //data.push(trace)
           return trace;
         } // END CREATE GRAPH FUNCTION --------------------------------------------------
 
@@ -147,10 +147,10 @@ window.onload = function () {
         // CREATE MOVING AVERAGE - GRAPH FUNCTION --------------------------------------------
         // two arguments - the selected bird and the number bird (user can only select 5)
         function createMovingAvgGraph(chosenBird) {
-            console.log(chosenBird)
+
             // get the bird counts from function getBirdData
             let thisCurrentCount = getMovingAvg(chosenBird);
-            console.log(thisCurrentCount);
+
             // create the Plotly trace object with relevant information
             var trace = {
                 type: 'scatter',
@@ -164,7 +164,6 @@ window.onload = function () {
                   smoothing: 0,
                 }
               };
-              //data.push(trace)
               return trace;
         } // END CREATE GRAPH FUNCTION --------------------------------------------------
         
@@ -183,7 +182,7 @@ window.onload = function () {
             var layout = {
                 width: 1200,
                 height: 600,
-                title: "Avg",
+                title: "Moving Average",
                 colorway : ['#233D4D', '#FE7F2D', '#FCCA46', '#A1C181', '#619B8A']
               };
               
@@ -264,8 +263,6 @@ window.onload = function () {
         
 
     }); // END CALL ==================================================================
-
-
 
 
 
